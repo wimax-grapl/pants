@@ -1433,6 +1433,19 @@ class GlobalOptions(Subsystem):
                 "when run with Docker."
             ),
         )
+        register(
+            "--streaming-workunits-level",
+            advanced=True,
+            type=LogLevel,
+            default=LogLevel.DEBUG,
+            help=(
+                "The Level of workunits that will be reported to streaming workunit event "
+                "receivers.\n\n"
+                "The filtering of workunits that occurs at higher levels is tree-aware: parent "
+                "pointers are fixed up when workunits are filtered such that the resulting workunits "
+                "always form a tree."
+            ),
+        )
 
     @classmethod
     def validate_instance(cls, opts):
