@@ -38,6 +38,7 @@ from pants.option.global_options import (
 )
 from pants.option.option_value_container import OptionValueContainer
 from pants.option.subsystem import Subsystem
+from pants.util.logging import LogLevel
 from pants.util.ordered_set import FrozenOrderedSet
 from pants.vcs.changed import rules as changed_rules
 
@@ -56,12 +57,14 @@ class GraphScheduler:
         build_id,
         dynamic_ui: bool = False,
         use_colors=True,
+        max_workunit_level: LogLevel = LogLevel.DEBUG,
         session_values: Optional[SessionValues] = None,
         cancellation_latch: Optional[PySessionCancellationLatch] = None,
     ) -> GraphSession:
         session = self.scheduler.new_session(
             build_id,
             dynamic_ui,
+            max_workunit_level=max_workunit_level,
             session_values=session_values,
             cancellation_latch=cancellation_latch,
         )

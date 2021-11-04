@@ -197,6 +197,7 @@ class PySession:
         *,
         scheduler: PyScheduler,
         should_render_ui: bool,
+        max_workunit_level: int,
         build_id: str,
         session_values: SessionValues,
         cancellation_latch: PySessionCancellationLatch,

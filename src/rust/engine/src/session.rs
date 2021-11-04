@@ -143,11 +143,20 @@ impl Session {
   pub fn new(
     core: Arc<Core>,
     should_render_ui: bool,
+    mut max_workunit_level: log::Level,
     build_id: String,
     session_values: Value,
     cancelled: AsyncLatch,
   ) -> Result<Session, String> {
-    let workunit_store = WorkunitStore::new(!should_render_ui);
+    // We record workunits with the maximum level of:
+    // 1. the given `max_workunit_verbosity`, which should be computed from:
+    //     * the log level, to ensure that workunit events are logged
+    //     * the levels required by any consumers who will call `with_latest_workunits`.
+    // 2. the level required by the ConsoleUI (if any): currently, DEBUG.
+    if should_render_ui {
+      max_workunit_level = std::cmp::max(max_workunit_level, log::Level::Debug);
+    }
+    let workunit_store = WorkunitStore::new(!should_render_ui, max_workunit_level);
     let display = Mutex::new(SessionDisplay::new(
       &workunit_store,
       core.local_parallelism,

@@ -501,7 +501,7 @@ pub struct Context {
 impl Default for Context {
   fn default() -> Self {
     Context {
-      workunit_store: WorkunitStore::new(false),
+      workunit_store: WorkunitStore::new(false, Level::Debug),
       build_id: String::default(),
     }
   }

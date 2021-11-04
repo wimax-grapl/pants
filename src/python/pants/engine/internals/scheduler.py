@@ -304,6 +304,7 @@ class Scheduler:
         self,
         build_id: str,
         dynamic_ui: bool = False,
+        max_workunit_level: LogLevel = LogLevel.DEBUG,
         session_values: SessionValues | None = None,
         cancellation_latch: PySessionCancellationLatch | None = None,
     ) -> SchedulerSession:
@@ -313,6 +314,7 @@ class Scheduler:
             PySession(
                 scheduler=self.py_scheduler,
                 should_render_ui=dynamic_ui,
+                max_workunit_level=max_workunit_level.level,
                 build_id=build_id,
                 session_values=session_values or SessionValues(),
                 cancellation_latch=cancellation_latch or PySessionCancellationLatch(),

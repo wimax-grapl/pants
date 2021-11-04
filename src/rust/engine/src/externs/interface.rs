@@ -620,6 +620,7 @@ py_class!(class PySession |py| {
     def __new__(_cls,
           scheduler: PyScheduler,
           should_render_ui: bool,
+          max_workunit_level: u64,
           build_id: String,
           session_values: PyObject,
           cancellation_latch: PySessionCancellationLatch,
@@ -628,9 +629,13 @@ py_class!(class PySession |py| {
       // held.
       let core = scheduler.scheduler(py).core.clone();
       let cancellation_latch = cancellation_latch.cancelled(py).clone();
+      let py_level: PythonLogLevel = max_workunit_level
+        .try_into()
+        .map_err(|e| PyErr::new::<exc::Exception, _>(py, (format!("{}", e),)))?;
       let session = py.allow_threads(|| Session::new(
           core,
           should_render_ui,
+          py_level.into(),
           build_id,
           session_values.into(),
           cancellation_latch,

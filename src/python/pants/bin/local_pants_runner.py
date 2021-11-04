@@ -89,6 +89,7 @@ class LocalPantsRunner:
             run_id,
             dynamic_ui=global_options.dynamic_ui,
             use_colors=global_options.get("colors", True),
+            max_workunit_level=max(global_options.streaming_workunits_level, global_options.level),
             session_values=SessionValues(
                 {
                     OptionsBootstrapper: options_bootstrapper,
