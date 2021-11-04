@@ -464,7 +464,7 @@ pub trait CapturedWorkdir {
       context.workunit_store.clone(),
       "setup_sandbox".to_owned(),
       WorkunitMetadata {
-        level: Level::Trace,
+        level: Level::Debug,
         ..WorkunitMetadata::default()
       },
       |_workunit| async move {
